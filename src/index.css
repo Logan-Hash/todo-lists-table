@@ -3,3 +3,10 @@ button,
 	margin-bottom: 0 !important;
 	margin-right: .5rem;
 }
+.line {
+	text-decoration: line-through;
+}
+.active {
+	background-color: blue!important;
+	color: #fff!important;
+}
