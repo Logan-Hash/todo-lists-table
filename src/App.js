@@ -3,7 +3,7 @@ import React, { useState, Fragment, useEffect } from "react";
 
 import AddUserForm from "./forms/AddUserForm";
 import EditUserForm from "./forms/EditUserForm";
-import UserTable from "./tables/UserTable";
+import UserTable from "./tables/TodoTable";
 
 const App = () => {
   useEffect(() => {
@@ -11,8 +11,8 @@ const App = () => {
   }, []);
   // Data
   const usersData = [
-    { id: 1, name: "Go to the school", isCompleted: false, category: "work" },
-    { id: 2, name: "Clean the office", isCompleted: false, category: "work" },
+    { id: 1, name: "Go to the school", isCompleted: true, category: "work" },
+    { id: 2, name: "Clean the office", isCompleted: true, category: "work" },
     { id: 3, name: "take homework", isCompleted: false, category: "home" },
     { id: 4, name: "Go to work", isCompleted: false, category: "home" },
     { id: 5, name: "apple", isCompleted: false, category: "home" },
@@ -23,6 +23,9 @@ const App = () => {
       isCompleted: false,
       category: "home",
     },
+    { id: 8, name: "buy coffee", isCompleted: false, category: "shop" },
+    { id: 9, name: "buy some food", isCompleted: false, category: "shop" },
+    { id: 10, name: "buy sim card", isCompleted: false, category: "shop" },
   ];
 
   const initialFormState = {
@@ -33,19 +36,17 @@ const App = () => {
   };
 
   // Setting state
-  const [category, setCategory] = useState(["home", "work"]);
+  // const [category, setCategory] = useState(["home", "work"]);
   const [todos, setTodos] = useState(usersData);
   const [currentTodo, setCurrentTodo] = useState(initialFormState);
   const [editing, setEditing] = useState(false);
-
   // CRUD operations
-  const uniValue = [...new Set(category.map((cate) => cate))];
-  console.log(uniValue);
+  const uniValue = [...new Set(todos.map((cate) => cate.category))];
   const addTodo = (todo) => {
     todo.id = todos.length + 1;
     setTodos([...todos, todo]);
 
-    setCategory([...category, todo.category]);
+    // setCategory([...category, todo.category]);
   };
 
   const deleteTodo = (id) => {
@@ -56,7 +57,7 @@ const App = () => {
 
   const updateTodo = (id, updatedTodo) => {
     setEditing(false);
-    
+
     setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
   };
 
@@ -76,7 +77,7 @@ const App = () => {
       </h2>
       {editing ? '' : <button
         type="button"
-        class="btn btn-primary"
+        className="btn btn-primary"
         data-toggle="modal"
         data-target="#addtodo"
       >
@@ -95,14 +96,13 @@ const App = () => {
               />
             </Fragment>
           ) : (
-            <Fragment>
-              <AddUserForm
-                addTodo={addTodo}
-                category={category}
-                isCompleted={todos.isCompleted}
-              />
-            </Fragment>
-          )}
+              <Fragment>
+                <AddUserForm
+                  addTodo={addTodo}
+                  isCompleted={todos.isCompleted}
+                />
+              </Fragment>
+            )}
         </div>
         <div className="flex-large">
           <h2 className="text-center">View Todos</h2>
@@ -114,7 +114,6 @@ const App = () => {
             editRow={editRow}
             deleteTodo={deleteTodo}
             uniValue={uniValue}
-            setCategory={setCategory}
           />
         </div>
       </div>

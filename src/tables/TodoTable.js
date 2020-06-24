@@ -17,30 +17,30 @@ const UserTable = (props) => {
   const handleCategory = (e) => {
     if (category === props.category) return;
     setCategory(e.target.value);
-    console.log(category);
   };
 
   //search with Check ----------------------
-  const [check, setCheck] = useState("uncheck");
+  const [check, setCheck] = useState(true);
   const handleCheck = (e) => {
-    setCheck(e.target.value);
+    setCheck(e.target.checked);
+
   };
 
   //pagination ---------------
   const [currentPage, setCurrentPage] = useState(1);
-  const [todosPerPage] = useState(5);
+  const [todosPerPage] = useState(4);
 
   const indexOfLastPost = currentPage * todosPerPage;
   const indexOfFirstPost = indexOfLastPost - todosPerPage;
   const currentPost = props.todos.slice(indexOfFirstPost, indexOfLastPost);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  useEffect(() => setCurrentPage(1), []);
+ 
   // End
+
   // Toggle Checked
   const toggleTodo = (id) => {
     console.log(id);
     const temporaryTodos = [...props.todos];
-    console.log(temporaryTodos);
     temporaryTodos[id].isCompleted = !temporaryTodos[id].isCompleted;
     props.setTodos(temporaryTodos);
   };
@@ -80,23 +80,19 @@ const UserTable = (props) => {
                 }
               })
               .filter((todo) => {
-                if (check === "uncheck") return todo;
-                else if (todo.isCompleted === true) {
-                  return todo;
-                } else if (todo.isCompleted === false)
-                  return console.log("no data");
-              })
-              .filter((todo) => {
                 if (category === "null") return todo;
                 else if (
-                  todo.category
-                    .toString()
-                    .toLowerCase()
-                    .includes(category.toLowerCase(""))
+                  todo.category === category
                 ) {
-                  console.log(category);
                   return todo;
                 }
+              })
+              .filter((todo) => {
+                if (check === true) return todo;
+                else if (check === todo.isCompleted) {
+                  return todo;
+                }
+
               })
               .map((todo, index) => (
                 <tr key={index} id={todo.id}>
@@ -123,7 +119,7 @@ const UserTable = (props) => {
                       }}
                       className={`${
                         todo.isCompleted ? "hide" : "btn btn-success mr-3"
-                      }`}
+                        }`}
                       type="button"
                       data-toggle="modal"
                       data-target="#edittodo"
@@ -140,10 +136,10 @@ const UserTable = (props) => {
                 </tr>
               ))
           ) : (
-            <tr>
-              <td colSpan={3}>No Data</td>
-            </tr>
-          )}
+              <tr>
+                <td colSpan={3}>No Data</td>
+              </tr>
+            )}
         </tbody>
       </table>
       <Pagination

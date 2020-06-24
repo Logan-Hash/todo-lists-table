@@ -8,19 +8,8 @@ const TableCheck = ({ handleCheck, todos }) => {
       <input
         type="checkbox"
         className="mr-3"
-        defaultChecked={false}
-        checked={todos.isCompleted}
-        onClick={handleCheck}
-      />
-        
-      All
-      <input
-        type="checkbox"
-        value="uncheck"
-        className="mr-3"
         defaultChecked={true}
-        checked={todos.isCompleted}
-        onClick={handleCheck}
+        onChange={handleCheck}
       />
     </React.Fragment>
   );

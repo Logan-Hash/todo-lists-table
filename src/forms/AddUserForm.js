@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import  { Redirect } from 'react-router-dom'
 
+
 const AddUserForm = (props) => {
+
   const initialFormState = {
     id: null,
     name: "",
@@ -9,7 +11,6 @@ const AddUserForm = (props) => {
     isCompleted: false,
   };
   const [todos, setTodos] = useState(initialFormState);
-
   const handleInputChange = (event) => {
     const { name, category, isCompleted, checked, value } = event.target;
 
@@ -21,6 +22,9 @@ const AddUserForm = (props) => {
     });
   };
 
+  const handleClose = () => {
+    setTodos(initialFormState)
+  }
   return (
     <div className="modal" tabindex="-1" role="dialog" id="addtodo">
       <div className="modal-dialog">
@@ -32,6 +36,7 @@ const AddUserForm = (props) => {
               className="close"
               data-dismiss="modal"
               aria-label="Close"
+              onClick={handleClose}
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -42,7 +47,6 @@ const AddUserForm = (props) => {
                 event.preventDefault();
                 if (!todos.name || !todos.category)
                   return alert("Please Fill Form ! Or Don't be Blank text ! ");
-                console.log(props.category);
                 props.addTodo(todos);
                 setTodos(initialFormState);
                 return <Redirect to='/s'  />
@@ -75,11 +79,12 @@ const AddUserForm = (props) => {
               <button className="btn btn-primary" >Add new Todo</button>
             </form>
           </div>
-          <div class="modal-footer">
+          <div className="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-dismiss="modal"
+              onClick={handleClose}
             >
               Close
             </button>
